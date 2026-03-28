@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mehul Goel — AI Engineer & Data Scientist</title>
+  <meta name="description" content="Mehul Goel — MS Data Science at NYU. AI Engineer, ML Engineer, Data Scientist. Building intelligent systems that solve real-world problems." />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --surface: #111114;
+      --surface2: #18181d;
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+      --text: #f0ede8;
+      --text-muted: #8a8694;
+      --text-dim: #5a5565;
+      --accent: #e8783a;
+      --accent2: #f0a56a;
+      --accent-glow: rgba(232,120,58,0.15);
+      --blue: #5b8ff9;
+      --green: #52d98a;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- SCROLLBAR ---- */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ---- NOISE TEXTURE ---- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ---- NAVBAR ---- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.45rem 1.2rem;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent2) !important; transform: translateY(-1px); }
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; color: var(--text); }
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: rgba(10,10,11,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      z-index: 99;
+      flex-direction: column; gap: 1.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ---- HERO ---- */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      padding-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      opacity: 0.45;
+    }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(232,120,58,0.35), transparent 70%);
+      top: -100px; right: -100px;
+    }
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(91,143,249,0.2), transparent 70%);
+      bottom: 100px; left: -100px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(82,217,138,0.1);
+      border: 1px solid rgba(82,217,138,0.2);
+      color: var(--green);
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    .hero-name .accent { color: var(--accent); font-style: italic; }
+    .hero-title {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+      font-family: var(--mono);
+    }
+    .hero-title .pipe { color: var(--border-strong); margin: 0 0.75rem; }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.7rem 1.6rem;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,120,58,0.35); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent;
+      color: var(--text);
+      padding: 0.7rem 1.6rem;
+      border-radius: 100px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .hero-socials {
+      display: flex; gap: 1rem;
+    }
+    .social-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s;
+      font-size: 1rem;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+    .social-link svg { width: 16px; height: 16px; }
+
+    /* Hero Image */
+    .hero-image-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .hero-image-ring {
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, var(--accent), var(--blue), var(--accent));
+      padding: 2px;
+      animation: spin-slow 12s linear infinite;
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hero-image-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      animation: spin-slow 12s linear infinite reverse;
+    }
+    .hero-image-inner img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .hero-image-badge {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      color: var(--text);
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+    .hero-image-badge.top-right {
+      top: 10px; right: -20px;
+    }
+    .hero-image-badge.bottom-left {
+      bottom: 20px; left: -30px;
+    }
+    .badge-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .badge-dot.orange { background: var(--accent); }
+    .badge-dot.blue { background: var(--blue); }
+
+    /* ---- SECTION SHARED ---- */
+    section:not(#home) {
+      padding: 6rem clamp(1.5rem, 5vw, 4rem);
+    }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 3rem;
+    }
+    .section-divider {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem;
+    }
+    .section-divider .line {
+      flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ---- ABOUT ---- */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-bio p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    .about-bio p strong { color: var(--text); font-weight: 600; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;
+    }
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+    .edu-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 3px 0 0 3px;
+    }
+    .edu-card.blue::before { background: var(--blue); }
+    .edu-card:hover { border-color: var(--border-strong); transform: translateX(4px); }
+    .edu-card-header {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;
+    }
+    .edu-degree { font-weight: 600; font-size: 1rem; color: var(--text); }
+    .edu-year { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); }
+    .edu-school { font-size: 0.85rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
+    .edu-card.blue .edu-school { color: var(--blue); }
+    .edu-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+    .edu-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem; font-family: var(--mono); }
+
+    /* ---- PROJECTS ---- */
+    #projects { background: var(--bg); }
+    .projects-filter {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: var(--sans);
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex; flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(232,120,58,0.06) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .project-card:hover::after { opacity: 1; }
+    .project-card:hover { border-color: var(--border-strong); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .project-card.featured { border-color: rgba(232,120,58,0.2); }
+    .project-top {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;
+    }
+    .project-icon {
+      width: 40px; height: 40px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(232,120,58,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .project-featured-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      background: var(--accent-glow);
+      border: 1px solid rgba(232,120,58,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+    }
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+    .project-links {
+      display: flex; gap: 0.75rem; margin-top: auto;
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent); }
+    .project-link svg { width: 13px; height: 13px; }
+
+    /* ---- EXPERIENCE ---- */
+    #experience { background: var(--surface); }
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 2rem;
+      cursor: pointer;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2.5rem;
+      top: 0.3rem;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .timeline-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 1.75rem;
+      transition: all 0.2s;
+    }
+    .timeline-item:hover .timeline-card {
+      border-color: var(--border-strong);
+      transform: translateX(4px);
+    }
+    .timeline-header {
+      display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.4rem; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .timeline-title { font-weight: 600; font-size: 1.05rem; color: var(--text); }
+    .timeline-period {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--text-dim);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+    .timeline-company { font-size: 0.875rem; color: var(--accent); font-weight: 500; margin-bottom: 0.6rem; }
+    .timeline-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-weight: 300; margin-bottom: 1rem; }
+    .timeline-skills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-chip {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(232,120,58,0.08);
+      border: 1px solid rgba(232,120,58,0.15);
+      color: var(--accent2);
+    }
+    .timeline-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.75rem; font-family: var(--mono); }
+
+    /* ---- SKILLS ---- */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-category {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .skill-cat-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem;
+    }
+    .skill-cat-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .skill-cat-title { font-weight: 600; font-size: 0.95rem; color: var(--text); }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-pill {
+      font-size: 0.78rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      transition: all 0.15s;
+      cursor: default;
+    }
+    .skill-pill:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ---- CONTACT ---- */
+    #contact { background: var(--surface); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .contact-info p {
+      color: var(--text-muted); font-weight: 300; line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+    .contact-link-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-link-icon svg { width: 16px; height: 16px; }
+    .contact-link-text { flex: 1; }
+    .contact-link-label { font-size: 0.8rem; color: var(--text-dim); font-weight: 400; margin-bottom: 0.1rem; }
+    .contact-link-value { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+    .contact-link-arrow { color: var(--text-dim); transition: transform 0.2s; }
+    .contact-link:hover .contact-link-arrow { transform: translateX(4px); color: var(--accent); }
+
+    /* Contact Form */
+    .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; }
+    .form-group input, .form-group textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+      font-weight: 300;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-dim); }
+    #submit-btn {
+      align-self: flex-start;
+      font-family: var(--sans);
+    }
+    #submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-status {
+      font-size: 0.85rem; padding: 0.75rem 1rem; border-radius: 8px; display: none;
+    }
+    .form-status.success { background: rgba(82,217,138,0.1); border: 1px solid rgba(82,217,138,0.2); color: var(--green); display: block; }
+    .form-status.error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; display: block; }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); }
+    .footer-socials { display: flex; gap: 0.75rem; }
+
+    /* ---- MODAL ---- */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      display: none; align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 680px; width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modal-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; font-size: 1.1rem;
+    }
+    .modal-close:hover { color: var(--text); border-color: var(--border-strong); }
+    .modal-title {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .modal-subtitle { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 300; line-height: 1.6; }
+    .modal-section { margin-bottom: 1.5rem; }
+    .modal-section-title { font-size: 0.75rem; font-family: var(--mono); letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .modal-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .modal-bullets li {
+      display: flex; gap: 0.75rem; align-items: flex-start;
+      font-size: 0.875rem; color: var(--text-muted); font-weight: 300; line-height: 1.5;
+    }
+    .modal-bullets li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* ---- ANIMATIONS ---- */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-delay-1 { transition-delay: 0.1s; }
+    .fade-up-delay-2 { transition-delay: 0.2s; }
+    .fade-up-delay-3 { transition-delay: 0.3s; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-image-wrap { order: -1; display: flex; justify-content: center; }
+      .hero-image-ring { width: 200px; height: 200px; }
+      .hero-image-badge { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+    }
+    @media (max-width: 640px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ======= NAVBAR ======= -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">MG<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="/resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+    <li><a href="#contact" class="nav-cta">Let's Connect</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8">
+      <line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="11" x2="19" y2="11"/><line x1="3" y1="16" x2="19" y2="16"/>
+    </svg>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#projects" class="mobile-link">Projects</a>
+  <a href="#experience" class="mobile-link">Experience</a>
+  <a href="#skills" class="mobile-link">Skills</a>
+  <a href="/resume.pdf" target="_blank" class="mobile-link">Resume ↗</a>
+  <a href="#contact" class="mobile-link" style="color: var(--accent); font-weight: 600;">Let's Connect</a>
+</div>
+
+<!-- ======= HERO ======= -->
+<section id="home">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge">Open to Internship & Part-Time Roles</div>
+      <h1 class="hero-name">
+        Mehul<br>
+        <span class="accent">Goel</span>
+      </h1>
+      <p class="hero-title">
+        AI Engineer
+        <span class="pipe">|</span>
+        ML Engineer
+        <span class="pipe">|</span>
+        Data Scientist
+      </p>
+      <p class="hero-desc">
+        MS Data Science at NYU · Ex–LTI Mindtree (Microsoft). I build intelligent systems — agentic pipelines, RL environments, financial ML models — that solve real problems.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
+          View Projects
+        </button>
+        <a class="btn-outline" href="/resume.pdf" download="Mehul_Goel_Resume.pdf">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2v8M4 7l3 3 3-3M2 12h10"/></svg>
+          Download Resume
+        </a>
+        <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          Say Hello
+        </button>
+      </div>
+      <div class="hero-socials">
+        <a href="https://www.linkedin.com/in/mehul-goel-data-science/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+        </a>
+        <a href="https://github.com/goel-mehul" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+        </a>
+        <a href="mailto:mgoel.mehul@gmail.com" class="social-link" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="hero-image-ring">
+        <div class="hero-image-inner">
+          <img src="/hero-image.jpg" alt="Mehul Goel" />
+        </div>
+      </div>
+      <div class="hero-image-badge top-right">
+        <span class="badge-dot orange"></span>NYU CDS · GPA 3.77
+      </div>
+      <div class="hero-image-badge bottom-left">
+        <span class="badge-dot blue"></span>300+ Enterprise Clients
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= ABOUT ======= -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label fade-up">01 — About</p>
+    <h2 class="section-title fade-up">Building at the intersection<br><em>of research and production</em></h2>
+    <div class="about-grid">
+      <div class="about-bio fade-up">
+        <p>I'm an <strong>AI Engineer and Data Scientist</strong> currently pursuing my MS in Data Science at <strong>NYU's Center for Data Science</strong> (GPA 3.77, graduating May 2027). I specialize in building production-ready ML systems — from multi-agent LangGraph pipelines to reinforcement learning environments.</p>
+        <p>Before NYU, I spent nearly 3 years at <strong>LTI Mindtree</strong> as a Machine Learning Support Engineer on the Microsoft account, deploying Azure AI solutions across 300+ enterprise clients including Fortune 500 companies. I earned a 4.72/5 satisfaction rating and was recognized as Employee of the Month twice.</p>
+        <p>My current focus: <strong>agentic AI systems, financial ML, and RL</strong>. I'm actively looking for Summer 2025 internships in AI Engineering, ML Engineering, and Data Science.</p>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">300+</div>
+            <div class="stat-label">Enterprise clients served at Microsoft</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">4.72</div>
+            <div class="stat-label">Client satisfaction score / 5.0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">3.77</div>
+            <div class="stat-label">NYU GPA (current)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">ML / AI portfolio projects</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-up fade-up-delay-1">
+        <h3 style="font-family: var(--serif); font-size: 1.2rem; margin-bottom: 1.25rem; color: var(--text-muted); font-weight: 400;">Education</h3>
+        <div class="edu-card" onclick="openModal('nyu-modal')">
+          <div class="edu-card-header">
+            <span class="edu-degree">M.S. Data Science</span>
+            <span class="edu-year">2025–2027</span>
+          </div>
+          <div class="edu-school">New York University · CDS</div>
+          <div class="edu-desc">Machine Learning, Reinforcement Learning, Big Data. GPA 3.77.</div>
+          <div class="edu-hint">→ click for courses & details</div>
+        </div>
+        <div class="edu-card blue" onclick="openModal('umich-modal')">
+          <div class="edu-card-header">
+            <span class="edu-degree">B.S. Information Science</span>
+            <span class="edu-year">2022</span>
+          </div>
+          <div class="edu-school">University of Michigan</div>
+          <div class="edu-desc">Data science, algorithms, and systems. Graduated with honors.</div>
+          <div class="edu-hint">→ click for courses & details</div>
+        </div>
+        <div style="margin-top: 1.5rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+          <div style="font-size: 0.75rem; font-family: var(--mono); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;">Currently seeking</div>
+          <div style="font-size: 0.875rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.4rem;">
+            <span>→ AI / ML Engineering Internships</span>
+            <span>→ Data Science Internships</span>
+            <span>→ Research Collaborations</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROJECTS ======= -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label fade-up">02 — Projects</p>
+    <h2 class="section-title fade-up">Work I'm proud of</h2>
+    <div class="projects-filter fade-up" id="filter-btns">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="agentic">Agentic AI</button>
+      <button class="filter-btn" data-filter="rl">Reinforcement Learning</button>
+      <button class="filter-btn" data-filter="nlp">NLP / RAG</button>
+      <button class="filter-btn" data-filter="finance">Finance / ML</button>
+    </div>
+    <div class="projects-grid" id="projects-grid">
+
+      <!-- Project 1: Multi-Agent Research Scientist -->
+      <div class="project-card featured fade-up" data-category="agentic" onclick="openModal('proj-agentic')">
+        <div class="project-top">
+          <div class="project-icon">🤖</div>
+          <span class="project-featured-tag">Featured</span>
+        </div>
+        <h3 class="project-title">Multi-Agent Research Scientist</h3>
+        <p class="project-desc">6-agent LangGraph pipeline that autonomously researches ML papers, extracts structured summaries, synthesizes findings, and generates reports — deployed on Vercel.</p>
+        <div class="project-tags">
+          <span class="tag">LangGraph</span>
+          <span class="tag">ChromaDB</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">RAG</span>
+          <span class="tag">Vercel</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/goel-mehul/Agentic-AI-Project" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+            GitHub
+          </a>
+          <a href="https://agentic-ai-project-mehul-goel.vercel.app" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+            Live Demo
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 2: Robust RAG -->
+      <div class="project-card featured fade-up fade-up-delay-1" data-category="nlp" onclick="openModal('proj-rag')">
+        <div class="project-top">
+          <div class="project-icon">🔍</div>
+          <span class="project-featured-tag">Featured</span>
+        </div>
+        <h3 class="project-title">Robust RAG Under Semantic Drift</h3>
+        <p class="project-desc">Hybrid retrieval system (FAISS + BM25 + RRF) stress-tested against semantic drift on climate change data. Studied retrieval degradation and mitigation strategies.</p>
+        <div class="project-tags">
+          <span class="tag">FAISS</span>
+          <span class="tag">BM25</span>
+          <span class="tag">RRF</span>
+          <span class="tag">LangChain</span>
+          <span class="tag">HuggingFace</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/goel-mehul/RAG-Drift-NLP-on-Climate-Data" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 3: RetailRL -->
+      <div class="project-card featured fade-up fade-up-delay-2" data-category="rl" onclick="openModal('proj-retailrl')">
+        <div class="project-top">
+          <div class="project-icon">🏪</div>
+          <span class="project-featured-tag">Featured</span>
+        </div>
+        <h3 class="project-title">RetailRL — Multi-Agent Pricing</h3>
+        <p class="project-desc">PettingZoo AEC environment simulating 10 competing grocery retailers. DQN, PPO, A2C, and Q-Table agents trained over 500 episodes with MNL demand modeling. v1.0.0 released.</p>
+        <div class="project-tags">
+          <span class="tag">DQN</span>
+          <span class="tag">PPO</span>
+          <span class="tag">PettingZoo</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Python</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/goel-mehul/Reinforcement-Learning-Retail-Project" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 4: FinSignal -->
+      <div class="project-card fade-up" data-category="finance" onclick="openModal('proj-finsignal')">
+        <div class="project-top">
+          <div class="project-icon">📈</div>
+          <span class="project-featured-tag" style="background: rgba(82,217,138,0.1); border-color: rgba(82,217,138,0.2); color: var(--green);">In Progress</span>
+        </div>
+        <h3 class="project-title">FinSignal — Financial ML Pipeline</h3>
+        <p class="project-desc">End-to-end financial data science pipeline: S&P 500 + FRED macro data, GARCH volatility, VAR / Granger causality, and XGBoost return prediction. Currently through Phase 3.</p>
+        <div class="project-tags">
+          <span class="tag">XGBoost</span>
+          <span class="tag">GARCH</span>
+          <span class="tag">VAR</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">FRED API</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/goel-mehul/Financial-Signals-Data-Science" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 5: Soccer Ratings -->
+      <div class="project-card fade-up fade-up-delay-1" data-category="nlp" onclick="openModal('proj-soccer')">
+        <div class="project-top">
+          <div class="project-icon">⚽</div>
+        </div>
+        <h3 class="project-title">Soccer Player Rating Prediction</h3>
+        <p class="project-desc">96.88% accuracy using ensemble ML methods (Random Forest, Gradient Boosting, Neural Nets) on 10K+ player records with extensive feature engineering.</p>
+        <div class="project-tags">
+          <span class="tag">scikit-learn</span>
+          <span class="tag">XGBoost</span>
+          <span class="tag">Feature Engineering</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/goel-mehul/Predicting-Soccer-Player-Ratings" target="_blank" rel="noopener" class="project-link" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- View All -->
+      <div class="project-card fade-up fade-up-delay-2" style="background: var(--accent-glow); border-color: rgba(232,120,58,0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem; min-height: 200px;">
+        <div style="font-size: 2rem;">→</div>
+        <div style="font-family: var(--serif); font-size: 1.2rem;">View all on GitHub</div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">More projects, experiments,<br>and open-source work</p>
+        <a href="https://github.com/goel-mehul" target="_blank" rel="noopener" class="btn-outline" style="margin-top: 0.5rem; font-size: 0.85rem; padding: 0.5rem 1.2rem;">
+          github.com/goel-mehul
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= EXPERIENCE ======= -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-label fade-up">03 — Experience</p>
+    <h2 class="section-title fade-up">Where I've built things</h2>
+    <div class="timeline">
+
+      <div class="timeline-item fade-up" onclick="openModal('exp-lti')">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <span class="timeline-title">ML Support Engineer</span>
+            <span class="timeline-period">Aug 2022 – Feb 2025</span>
+          </div>
+          <div class="timeline-company">LTI Mindtree · Client: Microsoft</div>
+          <div class="timeline-desc">Deployed Azure AI solutions (OpenAI, NLP, CV, Speech) for 300+ enterprise clients. Earned 4.72/5 satisfaction score and 2× Employee of the Month.</div>
+          <div class="timeline-skills">
+            <span class="skill-chip">Azure AI Foundry</span>
+            <span class="skill-chip">LangChain</span>
+            <span class="skill-chip">RAG</span>
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">REST APIs</span>
+          </div>
+          <div class="timeline-hint">→ click to expand</div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up fade-up-delay-1" onclick="openModal('exp-um')">
+        <div class="timeline-dot" style="background: var(--blue);"></div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <span class="timeline-title">Data Analyst & Python Course Developer</span>
+            <span class="timeline-period">2021 – 2022</span>
+          </div>
+          <div class="timeline-company">UM Center for Academic Innovation</div>
+          <div class="timeline-desc">Developed Python MOOCs for underrepresented high school students. 100+ interactive exercises. Drove 38% increase in new user enrollment via performance analytics.</div>
+          <div class="timeline-skills">
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">SQL</span>
+            <span class="skill-chip">Curriculum Design</span>
+            <span class="skill-chip">Data Analysis</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up fade-up-delay-2" onclick="openModal('exp-ta')">
+        <div class="timeline-dot" style="background: var(--green);"></div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <span class="timeline-title">Teaching Assistant</span>
+            <span class="timeline-period">2021 – 2022</span>
+          </div>
+          <div class="timeline-company">UM School of Information</div>
+          <div class="timeline-desc">TA for SI618: Data Manipulation and Analysis (graduate course). Graded 120 students, ran office hours, reviewed weekly assignments.</div>
+          <div class="timeline-skills">
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">Data Science</span>
+            <span class="skill-chip">Mentorship</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up" onclick="openModal('exp-ds')">
+        <div class="timeline-dot" style="background: #a78bfa;"></div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <span class="timeline-title">Data Scientist (Capstone)</span>
+            <span class="timeline-period">2021</span>
+          </div>
+          <div class="timeline-company">DevelopMetrics</div>
+          <div class="timeline-desc">Built an NLP model (BERT/SpaCy/sklearn) to automate text coding. Delivered one week ahead of deadline with high accuracy and F1 score.</div>
+          <div class="timeline-skills">
+            <span class="skill-chip">BERT</span>
+            <span class="skill-chip">SpaCy</span>
+            <span class="skill-chip">scikit-learn</span>
+            <span class="skill-chip">NLP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up fade-up-delay-1" onclick="openModal('exp-ss')">
+        <div class="timeline-dot" style="background: #2dd4bf;"></div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <span class="timeline-title">Data Science Intern</span>
+            <span class="timeline-period">2020</span>
+          </div>
+          <div class="timeline-company">SoftSensor.ai</div>
+          <div class="timeline-desc">Scraped NYC restaurant menus (500+ restaurants), built NLP tokenization model, and deployed an Azure-hosted chatbot for client insights.</div>
+          <div class="timeline-skills">
+            <span class="skill-chip">Web Scraping</span>
+            <span class="skill-chip">NLP</span>
+            <span class="skill-chip">Azure</span>
+            <span class="skill-chip">Python</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= SKILLS ======= -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-label fade-up">04 — Skills</p>
+    <h2 class="section-title fade-up">Toolkit</h2>
+    <div class="skills-grid">
+
+      <div class="skill-category fade-up">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon" style="background: rgba(232,120,58,0.1); border: 1px solid rgba(232,120,58,0.2);">🐍</div>
+          <span class="skill-cat-title">Languages & Core</span>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">R</span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">Bash</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-up fade-up-delay-1">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon" style="background: rgba(91,143,249,0.1); border: 1px solid rgba(91,143,249,0.2);">🧠</div>
+          <span class="skill-cat-title">ML / AI Frameworks</span>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">LangChain</span>
+          <span class="skill-pill">LangGraph</span>
+          <span class="skill-pill">scikit-learn</span>
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">HuggingFace</span>
+          <span class="skill-pill">MLflow</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-up fade-up-delay-2">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon" style="background: rgba(82,217,138,0.1); border: 1px solid rgba(82,217,138,0.2);">🔗</div>
+          <span class="skill-cat-title">RAG & Vector DBs</span>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">FAISS</span>
+          <span class="skill-pill">ChromaDB</span>
+          <span class="skill-pill">BM25</span>
+          <span class="skill-pill">Pinecone</span>
+          <span class="skill-pill">OpenAI Embeddings</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-up">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon" style="background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2);">☁️</div>
+          <span class="skill-cat-title">Cloud & MLOps</span>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Azure AI Foundry</span>
+          <span class="skill-pill">Azure ML</span>
+          <span class="skill-pill">AWS</span>
+          <span class="skill-pill">GCP</span>
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">FastAPI</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-up fade-up-delay-1">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon" style="background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.2);">📊</div>
+          <span class="skill-cat-title">Data & Big Data</span>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+          <span class="skill-pill">PySpark</span>
+          <span class="skill-pill">Hadoop</span>
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">Power BI</span>
+          <span class="skill-pill">BigQuery</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-up fade-up-delay-2">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon" style="background: rgba(232,120,58,0.1); border: 1px solid rgba(232,120,58,0.2);">🎮</div>
+          <span class="skill-cat-title">Reinforcement Learning</span>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">DQN</span>
+          <span class="skill-pill">PPO</span>
+          <span class="skill-pill">A2C</span>
+          <span class="skill-pill">MAPPO</span>
+          <span class="skill-pill">PettingZoo</span>
+          <span class="skill-pill">Gymnasium</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= CONTACT ======= -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label fade-up">05 — Contact</p>
+    <h2 class="section-title fade-up">Let's build something</h2>
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <h3>Always open to a conversation</h3>
+        <p>Whether you're hiring, collaborating on research, or just want to talk AI — my inbox is open. I respond within 24–48 hours.</p>
+        <div class="contact-links">
+          <a href="mailto:mgoel.mehul@gmail.com" class="contact-link">
+            <div class="contact-link-icon" style="background: rgba(232,120,58,0.1); color: var(--accent);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+            </div>
+            <div class="contact-link-text">
+              <div class="contact-link-label">Email</div>
+              <div class="contact-link-value">mgoel.mehul@gmail.com</div>
+            </div>
+            <div class="contact-link-arrow">→</div>
+          </a>
+          <a href="https://www.linkedin.com/in/mehul-goel-data-science/" target="_blank" rel="noopener" class="contact-link">
+            <div class="contact-link-icon" style="background: rgba(91,143,249,0.1); color: var(--blue);">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+            </div>
+            <div class="contact-link-text">
+              <div class="contact-link-label">LinkedIn</div>
+              <div class="contact-link-value">mehul-goel-data-science</div>
+            </div>
+            <div class="contact-link-arrow">→</div>
+          </a>
+          <a href="https://github.com/goel-mehul" target="_blank" rel="noopener" class="contact-link">
+            <div class="contact-link-icon" style="background: rgba(255,255,255,0.05); color: var(--text);">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+            </div>
+            <div class="contact-link-text">
+              <div class="contact-link-label">GitHub</div>
+              <div class="contact-link-value">goel-mehul</div>
+            </div>
+            <div class="contact-link-arrow">→</div>
+          </a>
+        </div>
+      </div>
+      <div class="fade-up fade-up-delay-1">
+        <form class="contact-form" id="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your project, role, or just say hello!" required></textarea>
+          </div>
+          <div class="form-status" id="form-status"></div>
+          <button type="submit" class="btn-primary" id="submit-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= FOOTER ======= -->
+<footer>
+  <div class="footer-logo">MG<span>.</span></div>
+  <div class="footer-copy">© 2025 Mehul Goel · mehulgoel.online</div>
+  <div class="footer-socials">
+    <a href="https://www.linkedin.com/in/mehul-goel-data-science/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+    </a>
+    <a href="https://github.com/goel-mehul" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<!-- ======= MODALS ======= -->
+
+<!-- NYU Modal -->
+<div class="modal-overlay" id="nyu-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('nyu-modal')">✕</button>
+    <p class="section-label">Education</p>
+    <h2 class="modal-title">M.S. Data Science</h2>
+    <p class="modal-subtitle">New York University · Center for Data Science · 2025–2027 · GPA 3.77</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Coursework</div>
+      <ul class="modal-bullets">
+        <li>Machine Learning (DS-GA 1003)</li>
+        <li>Reinforcement Learning (DS-GA 3001)</li>
+        <li>Big Data (DS-GA 1004) — Hadoop, MapReduce, Spark</li>
+        <li>Probability & Statistics, Linear Algebra & Optimization</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Highlights</div>
+      <ul class="modal-bullets">
+        <li>3.77 GPA maintaining academic excellence while building production ML projects</li>
+        <li>Active researcher on RL course project: "Plan-then-Code: Dual Reward RL" with team No Free Lunch Policy</li>
+        <li>Working on 4 portfolio projects simultaneously spanning agentic AI, RAG, RL, and financial ML</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- UMich Modal -->
+<div class="modal-overlay" id="umich-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('umich-modal')">✕</button>
+    <p class="section-label">Education</p>
+    <h2 class="modal-title">B.S. Information Science</h2>
+    <p class="modal-subtitle">University of Michigan · 2022 · Graduated with Honors</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Coursework</div>
+      <ul class="modal-bullets">
+        <li>Data Cleaning & Manipulation, Data Modeling & Pipelines</li>
+        <li>Data Structures & Algorithms, Database Design</li>
+        <li>Statistics for Data Science, Linear Algebra, Data Ethics</li>
+        <li>Web Development, Technical Writing & Documentation</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Honors & Activities</div>
+      <ul class="modal-bullets">
+        <li>University Honors — 4 consecutive semesters (Fall 2020 through Winter 2022)</li>
+        <li>Dean's List — University of Washington (4 quarters, 2019–2020)</li>
+        <li>Instructional Aide — SI618: Data Manipulation and Analysis (Winter 2022)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Project: Agentic AI -->
+<div class="modal-overlay" id="proj-agentic">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proj-agentic')">✕</button>
+    <p class="section-label">Project</p>
+    <h2 class="modal-title">Multi-Agent Research Scientist</h2>
+    <p class="modal-subtitle">6-agent LangGraph pipeline for autonomous ML paper research, synthesis, and report generation. Deployed at agentic-ai-project-mehul-goel.vercel.app</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Architecture</div>
+      <ul class="modal-bullets">
+        <li>6-agent LangGraph pipeline: Planner → Searcher → Fetcher → Extractor → Synthesizer → Writer</li>
+        <li>Extractor agent normalizes full paper abstracts into structured summaries before synthesis — key architectural choice to preserve signal-to-noise ratio</li>
+        <li>ChromaDB vector store for semantic retrieval; FastAPI backend; React frontend on Vercel</li>
+        <li>Zero hallucinations constraint across full report length</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Stack</div>
+      <div class="modal-tags">
+        <span class="tag">LangGraph</span><span class="tag">LangChain</span><span class="tag">ChromaDB</span><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">Vercel</span><span class="tag">OpenAI</span>
+      </div>
+    </div>
+    <div class="modal-section" style="display:flex;gap:0.75rem;flex-wrap:wrap">
+      <a href="https://github.com/goel-mehul/Agentic-AI-Project" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.85rem;padding:0.55rem 1.2rem;">GitHub ↗</a>
+      <a href="https://agentic-ai-project-mehul-goel.vercel.app" target="_blank" rel="noopener" class="btn-outline" style="font-size:0.85rem;padding:0.55rem 1.2rem;">Live Demo ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- Project: RAG -->
+<div class="modal-overlay" id="proj-rag">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proj-rag')">✕</button>
+    <p class="section-label">Project</p>
+    <h2 class="modal-title">Robust RAG Under Semantic Drift</h2>
+    <p class="modal-subtitle">Hybrid retrieval pipeline stress-tested against semantic drift on climate change corpora — studying degradation and mitigation strategies.</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Key Contributions</div>
+      <ul class="modal-bullets">
+        <li>Hybrid retrieval: FAISS (dense) + BM25 (sparse) fused via Reciprocal Rank Fusion (RRF)</li>
+        <li>Identified that abstracts-only retrieval is higher signal-to-noise than full-paper retrieval</li>
+        <li>Designed and ran controlled experiments simulating semantic shift across time-series document corpora</li>
+        <li>Quantified retrieval precision degradation and proposed mitigation: dedicated Extractor agents</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Stack</div>
+      <div class="modal-tags">
+        <span class="tag">FAISS</span><span class="tag">BM25</span><span class="tag">RRF</span><span class="tag">LangChain</span><span class="tag">HuggingFace</span><span class="tag">Python</span>
+      </div>
+    </div>
+    <a href="https://github.com/goel-mehul/RAG-Drift-NLP-on-Climate-Data" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.85rem;padding:0.55rem 1.2rem;">GitHub ↗</a>
+  </div>
+</div>
+
+<!-- Project: RetailRL -->
+<div class="modal-overlay" id="proj-retailrl">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proj-retailrl')">✕</button>
+    <p class="section-label">Project</p>
+    <h2 class="modal-title">RetailRL — Multi-Agent Pricing</h2>
+    <p class="modal-subtitle">Full PettingZoo AEC environment simulating 10 competing grocery retailers with DQN, PPO, A2C, and Q-Table agents. v1.0.0 released.</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Environment Details</div>
+      <ul class="modal-bullets">
+        <li>266-dimensional observations, 50 products, 7 price actions per product per agent</li>
+        <li>MNL (Multinomial Logit) demand model, inventory manager, supply chain, promotion calendar</li>
+        <li>10 reward functions supporting diverse agent objectives</li>
+        <li>124 passing tests across 25 commits; CLI training package for reproducibility</li>
+        <li>Streamlit dashboard with muted dark theme; deployed on Streamlit Cloud</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Stack</div>
+      <div class="modal-tags">
+        <span class="tag">PettingZoo</span><span class="tag">DQN</span><span class="tag">PPO</span><span class="tag">A2C</span><span class="tag">Streamlit</span><span class="tag">Python</span>
+      </div>
+    </div>
+    <a href="https://github.com/goel-mehul/Reinforcement-Learning-Retail-Project" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.85rem;padding:0.55rem 1.2rem;">GitHub ↗</a>
+  </div>
+</div>
+
+<!-- Project: FinSignal -->
+<div class="modal-overlay" id="proj-finsignal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proj-finsignal')">✕</button>
+    <p class="section-label">Project · In Progress</p>
+    <h2 class="modal-title">FinSignal</h2>
+    <p class="modal-subtitle">End-to-end financial data science pipeline: time-series analysis, volatility modeling, macroeconomic signal extraction, and ML-based return prediction on S&P 500 + FRED data.</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Pipeline Phases</div>
+      <ul class="modal-bullets">
+        <li>Phase 1–2: Data ingestion (FRED API, yfinance), cleaning, EDA, stationarity tests</li>
+        <li>Phase 3 (current): GARCH volatility modeling, VAR, Granger causality; XGBoost baseline</li>
+        <li>Phase 4 (planned): LSTM / Transformer return prediction; backtesting framework</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Stack</div>
+      <div class="modal-tags">
+        <span class="tag">XGBoost</span><span class="tag">arch (GARCH)</span><span class="tag">statsmodels (VAR)</span><span class="tag">FRED API</span><span class="tag">yfinance</span><span class="tag">Pandas</span>
+      </div>
+    </div>
+    <a href="https://github.com/goel-mehul/Financial-Signals-Data-Science" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.85rem;padding:0.55rem 1.2rem;">GitHub ↗</a>
+  </div>
+</div>
+
+<!-- Project: Soccer -->
+<div class="modal-overlay" id="proj-soccer">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('proj-soccer')">✕</button>
+    <p class="section-label">Project</p>
+    <h2 class="modal-title">Soccer Player Rating Prediction</h2>
+    <p class="modal-subtitle">96.88% accuracy predicting FIFA player ratings using ensemble ML on 10K+ player records.</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Approach</div>
+      <ul class="modal-bullets">
+        <li>Extensive feature engineering from 50+ player statistics and position data</li>
+        <li>Ensemble of Random Forest, Gradient Boosting, and Neural Network models</li>
+        <li>Cross-validation with hyperparameter tuning to prevent overfitting</li>
+        <li>Achieved 96.88% accuracy, balancing performance with model interpretability</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Stack</div>
+      <div class="modal-tags">
+        <span class="tag">scikit-learn</span><span class="tag">XGBoost</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Matplotlib</span>
+      </div>
+    </div>
+    <a href="https://github.com/goel-mehul/Predicting-Soccer-Player-Ratings" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.85rem;padding:0.55rem 1.2rem;">GitHub ↗</a>
+  </div>
+</div>
+
+<!-- Experience: LTI -->
+<div class="modal-overlay" id="exp-lti">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('exp-lti')">✕</button>
+    <p class="section-label">Experience</p>
+    <h2 class="modal-title">ML Support Engineer</h2>
+    <p class="modal-subtitle">LTI Mindtree · Client: Microsoft · Aug 2022 – Feb 2025</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Responsibilities & Achievements</div>
+      <ul class="modal-bullets">
+        <li>Deployed Azure AI Services (OpenAI, NLP, Computer Vision, Speech Recognition) and ML solutions for 300+ Microsoft enterprise clients, achieving a 4.72/5 satisfaction rating</li>
+        <li>Conducted code reviews and optimized Azure service implementations using Postman REST APIs and Python SDKs, ensuring compliance with industry best practices</li>
+        <li>Demonstrated expertise in Generative AI techniques including LangChain, RAG, and Prompt Engineering for efficient LLM deployment</li>
+        <li>Reported and escalated infrastructure outages to Azure product teams, ensuring prompt resolution and service continuity</li>
+        <li>Facilitated knowledge transfer sessions for 40+ new hires, expediting onboarding and improving team integration</li>
+        <li>Recognized as Employee of the Month twice for consistently exceeding performance expectations</li>
+      </ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Technologies</div>
+      <div class="modal-tags">
+        <span class="tag">Azure AI Foundry</span><span class="tag">Azure OpenAI</span><span class="tag">LangChain</span><span class="tag">RAG</span><span class="tag">Python</span><span class="tag">REST APIs</span><span class="tag">Postman</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Experience: UM -->
+<div class="modal-overlay" id="exp-um">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('exp-um')">✕</button>
+    <p class="section-label">Experience</p>
+    <h2 class="modal-title">Data Analyst & Python Course Developer</h2>
+    <p class="modal-subtitle">UM Center for Academic Innovation · 2021–2022</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Responsibilities</div>
+      <ul class="modal-bullets">
+        <li>Worked under Professor Barbara Ericson to develop Python MOOCs for underrepresented high school students on the FutureLearn platform</li>
+        <li>Designed 100+ interactive questions: MCQs, Parsons problems, and code-writing exercises</li>
+        <li>Conducted in-depth data analysis on student performance metrics using SQL, leading to a 38% increase in new user enrollment</li>
+        <li>Created dashboards to identify and address areas for improvement in learning outcomes</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Experience: TA -->
+<div class="modal-overlay" id="exp-ta">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('exp-ta')">✕</button>
+    <p class="section-label">Experience</p>
+    <h2 class="modal-title">Teaching Assistant</h2>
+    <p class="modal-subtitle">UM School of Information · Winter 2022</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Responsibilities</div>
+      <ul class="modal-bullets">
+        <li>Instructional Aide for SI618: Data Manipulation and Analysis (graduate course) under Instructor Teplovs</li>
+        <li>Graded assignments for 120 students and provided academic support via office hours</li>
+        <li>Reviewed daily class lab and weekly homework assignments for 20+ students</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Experience: DS -->
+<div class="modal-overlay" id="exp-ds">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('exp-ds')">✕</button>
+    <p class="section-label">Experience</p>
+    <h2 class="modal-title">Data Scientist — Capstone</h2>
+    <p class="modal-subtitle">DevelopMetrics · 2021</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Project</div>
+      <ul class="modal-bullets">
+        <li>Built an NLP model to automate the coding of text excerpts into structured columns — capstone project</li>
+        <li>Researched pre-trained models: BERT, ELECTRA, and SpaCy</li>
+        <li>Used SpaCy and scikit-learn to build features, extract keywords, and develop classifier models</li>
+        <li>Achieved high accuracy and F1 score; delivered one week ahead of deadline</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Experience: SoftSensor -->
+<div class="modal-overlay" id="exp-ss">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('exp-ss')">✕</button>
+    <p class="section-label">Experience</p>
+    <h2 class="modal-title">Data Science Intern</h2>
+    <p class="modal-subtitle">SoftSensor.ai · 2020</p>
+    <div class="modal-section">
+      <div class="modal-section-title">Responsibilities</div>
+      <ul class="modal-bullets">
+        <li>Built a Python web scraper for 500+ NYC restaurant menus</li>
+        <li>Developed an NLP model to tokenize and extract critical menu items from scraped data</li>
+        <li>Created a chatbot hosted on Azure to present findings interactively to clients</li>
+        <li>Collected, transformed, and cleaned large datasets to derive business insights</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  // EmailJS init
+  (function() {
+    emailjs.init({ publicKey: '-BosUAykzGyQOoFQq' });
+  })();
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.background = window.scrollY > 20 ? 'rgba(10,10,11,0.97)' : 'rgba(10,10,11,0.85)';
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  });
+
+  // Modal system
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(m => {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+
+  // Project filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('#projects-grid .project-card').forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Contact form
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const status = document.getElementById('form-status');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.className = 'form-status';
+
+    try {
+      await emailjs.send('service_5q2ocwd', 'template_xbe2ag3', {
+        from_name: document.getElementById('name').value,
+        from_email: document.getElementById('email').value,
+        message: document.getElementById('message').value,
+        to_name: 'Mehul Goel',
+      });
+      status.textContent = '✓ Message sent! I\'ll get back to you within 24–48 hours.';
+      status.className = 'form-status success';
+      e.target.reset();
+    } catch (err) {
+      status.textContent = '✕ Something went wrong. Please email me directly at mgoel.mehul@gmail.com';
+      status.className = 'form-status error';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg> Send Message';
+    }
+  });
+
+  // Fade-up intersection observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Project card mouse glow effect
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+</script>
+</body>
+</html>
